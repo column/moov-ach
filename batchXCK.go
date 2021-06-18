@@ -56,8 +56,12 @@ func (batch *BatchXCK) Validate() error {
 
 	for _, entry := range batch.Entries {
 		// XCK detail entries must be a debit
-		if entry.CreditOrDebit() != "D" {
+		if entry.CreditOrDebit() != "D" && !batch.IsReversal() {
 			return batch.Error("TransactionCode", ErrBatchDebitOnly, entry.TransactionCode)
+		}
+		// XCK reversal detail entries must be a credit
+		if entry.CreditOrDebit() != "C" && batch.IsReversal() {
+			return batch.Error("TransactionCode", ErrBatchCreditOnly, entry.TransactionCode)
 		}
 		// Amount must be 2,500 or less
 		if entry.Amount > 250000 {

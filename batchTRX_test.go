@@ -151,6 +151,17 @@ func testBatchTRXStandardEntryClassCode(t testing.TB) {
 	}
 }
 
+// TestBatchTRXTransactionCodeReversal validates BatchTRX reversal TransactionCode is not a debit
+func TestBatchTRXTransactionCodeReversal(t *testing.T) {
+	mockBatch := mockBatchTRXCredit()
+	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
+	err := mockBatch.Create()
+	if !base.Match(err, ErrBatchCreditOnly) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
 // TestBatchTRXStandardEntryClassCode tests validating BatchTRX create for an invalid StandardEntryClassCode
 func TestBatchTRXStandardEntryClassCode(t *testing.T) {
 	testBatchTRXStandardEntryClassCode(t)

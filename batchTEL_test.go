@@ -163,6 +163,17 @@ func testBatchTELDebit(t testing.TB) {
 	}
 }
 
+// TestBatchTELTransactionCodeReversal validates BatchTEL reversal TransactionCode is not a debit
+func TestBatchTELTransactionCodeReversal(t *testing.T) {
+	mockBatch := mockBatchTEL()
+	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
+	err := mockBatch.Create()
+	if !base.Match(err, ErrBatchCreditOnly) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
 // TestBatchTELDebit tests validating Transaction code for TEL entry detail
 func TestBatchTELDebit(t *testing.T) {
 	testBatchTELDebit(t)

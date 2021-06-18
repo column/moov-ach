@@ -194,6 +194,17 @@ func testBatchXCKMixedCreditsAndDebits(t testing.TB) {
 	}
 }
 
+// TestBatchXCKTransactionCodeReversal validates BatchXCK reversal TransactionCode is not a debit
+func TestBatchXCKTransactionCodeReversal(t *testing.T) {
+	mockBatch := mockBatchXCKCredit()
+	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
+	err := mockBatch.Create()
+	if !base.Match(err, ErrBatchCreditOnly) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
 // TestBatchXCKMixedCreditsAndDebits tests validating BatchXCK create for an invalid MixedCreditsAndDebits
 func TestBatchXCKMixedCreditsAndDebits(t *testing.T) {
 	testBatchXCKMixedCreditsAndDebits(t)

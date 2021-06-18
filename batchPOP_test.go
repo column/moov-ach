@@ -218,6 +218,17 @@ func testBatchPOPCreditsOnly(t testing.TB) {
 	}
 }
 
+// TestBatchPOPTransactionCodeReversal validates BatchPOP reversal TransactionCode is not a debit
+func TestBatchPOPTransactionCodeReversal(t *testing.T) {
+	mockBatch := mockBatchPOPCredit()
+	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
+	err := mockBatch.Create()
+	if !base.Match(err, ErrBatchCreditOnly) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
 // TestBatchPOPCreditsOnly tests validating BatchPOP create for an invalid CreditsOnly
 func TestBatchPOPCreditsOnly(t *testing.T) {
 	testBatchPOPCreditsOnly(t)

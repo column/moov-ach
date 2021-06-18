@@ -97,7 +97,7 @@ type BatchHeader struct {
 	EffectiveEntryDate string `json:"effectiveEntryDate,omitempty"`
 
 	// SettlementDate Leave blank, this field is inserted by the ACH operator
-	settlementDate string
+	SettlementDate string
 
 	// OriginatorStatusCode refers to the ODFI initiating the Entry.
 	// 0 ADV File prepared by an ACH Operator.
@@ -135,6 +135,10 @@ const (
 	DebitsOnly = 225
 	// AutomatedAccountingAdvices indicates a batch can only have Automated Accounting Advices (debit and credit)
 	AutomatedAccountingAdvices = 280
+)
+
+const ( // https://www.nachaoperatingrulesonline.org/2.16068/s003/ss033-1.4608137 (OG Chapter 29)
+	ReversalCompanyEntryDescription = "REVERSAL"
 )
 
 // NewBatchHeader returns a new BatchHeader with default values for non exported fields
@@ -179,8 +183,8 @@ func (bh *BatchHeader) Parse(record string) {
 	// 70-75 Date transactions are to be posted to the receivers' account.
 	// You almost always want the transaction to post as soon as possible, so put tomorrow's date in YYMMDD format
 	bh.EffectiveEntryDate = bh.validateSimpleDate(record[69:75])
-	// 76-79 Always blank (just fill with spaces)
-	bh.settlementDate = "   "
+	// 76-78 Settlement Date (Julian). Inserted by ACH Operator.
+	bh.SettlementDate = record[75:78]
 	// 79-79 Always 1
 	bh.OriginatorStatusCode = bh.parseNumField(record[78:79])
 	// 80-87 Your ODFI's routing number without the last digit. The last digit is simply a
@@ -204,7 +208,7 @@ func (bh *BatchHeader) String() string {
 	buf.WriteString(bh.CompanyEntryDescriptionField())
 	buf.WriteString(bh.CompanyDescriptiveDateField())
 	buf.WriteString(bh.EffectiveEntryDateField())
-	buf.WriteString(bh.settlementDateField())
+	buf.WriteString(bh.SettlementDateField())
 	buf.WriteString(fmt.Sprintf("%v", bh.OriginatorStatusCode))
 	buf.WriteString(bh.ODFIIdentificationField())
 	buf.WriteString(bh.BatchNumberField())
@@ -358,8 +362,8 @@ func (bh *BatchHeader) BatchNumberField() string {
 	return bh.numericField(bh.BatchNumber, 7)
 }
 
-func (bh *BatchHeader) settlementDateField() string {
-	return bh.alphaField(bh.settlementDate, 3)
+func (bh *BatchHeader) SettlementDateField() string {
+	return bh.alphaField(bh.SettlementDate, 3)
 }
 
 func (bh *BatchHeader) LiftEffectiveEntryDate() (time.Time, error) {

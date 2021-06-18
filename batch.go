@@ -981,6 +981,12 @@ func (batch *Batch) IsADV() bool {
 	return ok
 }
 
+// IsReversal determines if a batch is a reversal batch
+func (batch *Batch) IsReversal() bool {
+	// The word REVERSAL is contained in the first eight positions of the Company Entry Description Field
+	return batch.GetHeader().CompanyEntryDescriptionField()[:8] == ReversalCompanyEntryDescription
+}
+
 // ValidTranCodeForServiceClassCode validates a TransactionCode is valid for a ServiceClassCode
 func (batch *Batch) ValidTranCodeForServiceClassCode(entry *EntryDetail) error {
 	// ADV should use ADVEntryDetail
