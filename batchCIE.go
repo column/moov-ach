@@ -57,9 +57,9 @@ func (batch *BatchCIE) Validate() error {
 	}
 
 	// CIE detail entries can only be a credit, ServiceClassCode must allow credit
-	switch batch.Header.ServiceClassCode {
-	case MixedDebitsAndCredits, DebitsOnly:
-		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, batch.Header.ServiceClassCode)
+	scc := batch.Header.ServiceClassCode
+	if scc == MixedDebitsAndCredits || (scc == DebitsOnly && !batch.IsReversal()) || (scc == CreditsOnly && batch.IsReversal()) {
+		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, scc)
 	}
 
 	for _, entry := range batch.Entries {

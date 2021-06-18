@@ -234,6 +234,7 @@ func testBatchCIETransactionCode(t testing.TB) {
 func TestBatchCIETransactionCodeReversal(t *testing.T) {
 	mockBatch := mockBatchCIE()
 	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetHeader().ServiceClassCode = DebitsOnly
 	mockBatch.GetEntries()[0].TransactionCode = CheckingCredit
 	err := mockBatch.Create()
 	if !base.Match(err, ErrBatchDebitOnly) {

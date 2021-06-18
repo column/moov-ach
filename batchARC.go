@@ -59,9 +59,9 @@ func (batch *BatchARC) Validate() error {
 	}
 
 	// ARC detail entries can only be a debit, ServiceClassCode must allow debits
-	switch batch.Header.ServiceClassCode {
-	case MixedDebitsAndCredits, CreditsOnly:
-		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, batch.Header.ServiceClassCode)
+	scc := batch.Header.ServiceClassCode
+	if scc == MixedDebitsAndCredits || (scc == CreditsOnly && !batch.IsReversal()) || (scc == DebitsOnly && batch.IsReversal()) {
+		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, scc)
 	}
 
 	for _, entry := range batch.Entries {
