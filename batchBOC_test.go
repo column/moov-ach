@@ -308,6 +308,17 @@ func testBatchBOCTransactionCode(t testing.TB) {
 	}
 }
 
+// TestBatchBOCTransactionCodeReversal validates BatchBOC reversal TransactionCode is not a debit
+func TestBatchBOCTransactionCodeReversal(t *testing.T) {
+	mockBatch := mockBatchBOCCredit()
+	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
+	err := mockBatch.Create()
+	if !base.Match(err, ErrBatchCreditOnly) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
 // TestBatchBOCTransactionCode tests validating BatchBOC TransactionCode is not a credit
 func TestBatchBOCTransactionCode(t *testing.T) {
 	testBatchBOCTransactionCode(t)

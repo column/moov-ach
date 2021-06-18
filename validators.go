@@ -442,6 +442,10 @@ func (v *validator) isAlphanumeric(s string) error {
 // Subtract the sum from the next highest multiple of 10.
 // The result is the Check Digit
 func (v *validator) CalculateCheckDigit(routingNumber string) int {
+	return CalculateCheckDigit(routingNumber)
+}
+
+func CalculateCheckDigit(routingNumber string) int {
 	if n := utf8.RuneCountInString(routingNumber); n != 8 && n != 9 {
 		return -1
 	}
@@ -470,7 +474,7 @@ func (v *validator) CalculateCheckDigit(routingNumber string) int {
 	n, _ = strconv.Atoi(routeIndex[7])
 	sum = sum + (n * 7)
 
-	return v.roundUp10(sum) - sum
+	return int(math.Ceil(float64(sum)/10.0))*10 - sum
 }
 
 // CheckRoutingNumber returns a nil error if the provided routingNumber is valid according to

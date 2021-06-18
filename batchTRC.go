@@ -56,8 +56,12 @@ func (batch *BatchTRC) Validate() error {
 
 	for _, entry := range batch.Entries {
 		// TRC detail entries must be a debit
-		if entry.CreditOrDebit() != "D" {
+		if entry.CreditOrDebit() != "D" && !batch.IsReversal() {
 			return batch.Error("TransactionCode", ErrBatchDebitOnly, entry.TransactionCode)
+		}
+		// TRC reversal detail entries must be a credit
+		if entry.CreditOrDebit() != "C" && batch.IsReversal() {
+			return batch.Error("TransactionCode", ErrBatchCreditOnly, entry.TransactionCode)
 		}
 		// ProcessControlField underlying IdentificationNumber, must be defined
 		if entry.ProcessControlField() == "" {

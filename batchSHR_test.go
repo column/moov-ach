@@ -139,6 +139,17 @@ func testBatchSHRServiceClassCodeEquality(t testing.TB) {
 	}
 }
 
+// TestBatchSHRTransactionCodeReversal validates BatchSHR reversal TransactionCode is not a debit
+func TestBatchSHRTransactionCodeReversal(t *testing.T) {
+	mockBatch := mockBatchSHR()
+	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
+	err := mockBatch.Create()
+	if !base.Match(err, ErrBatchCreditOnly) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
 // TestBatchSHRServiceClassCodeEquality tests validating service class code equality
 func TestBatchSHRServiceClassCodeEquality(t *testing.T) {
 	testBatchSHRServiceClassCodeEquality(t)

@@ -66,8 +66,13 @@ func (batch *BatchARC) Validate() error {
 
 	for _, entry := range batch.Entries {
 		// ARC detail entries must be a debit
-		if entry.CreditOrDebit() != "D" {
+		if entry.CreditOrDebit() != "D" && !batch.IsReversal() {
 			return batch.Error("TransactionCode", ErrBatchDebitOnly, entry.TransactionCode)
+		}
+
+		// ARC reversal detail entries must be a credit
+		if entry.CreditOrDebit() != "C" && batch.IsReversal() {
+			return batch.Error("TransactionCode", ErrBatchCreditOnly, entry.TransactionCode)
 		}
 
 		// Amount must be 25,000 or less

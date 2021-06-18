@@ -225,17 +225,28 @@ func testBatchCIETransactionCode(t testing.TB) {
 	mockBatch := mockBatchCIE()
 	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
 	err := mockBatch.Create()
+	if !base.Match(err, ErrBatchCreditOnly) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
+// TestBatchCIETransactionCodeReversal validates BatchCIE reversal TransactionCode is not a credit
+func TestBatchCIETransactionCodeReversal(t *testing.T) {
+	mockBatch := mockBatchCIE()
+	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetEntries()[0].TransactionCode = CheckingCredit
+	err := mockBatch.Create()
 	if !base.Match(err, ErrBatchDebitOnly) {
 		t.Errorf("%T: %s", err, err)
 	}
 }
 
-// TestBatchCIETransactionCode tests validating BatchCIE TransactionCode is not a credit
+// TestBatchCIETransactionCode tests validating BatchCIE TransactionCode is not a debit
 func TestBatchCIETransactionCode(t *testing.T) {
 	testBatchCIETransactionCode(t)
 }
 
-// BenchmarkBatchCIETransactionCode benchmarks validating BatchCIE TransactionCode is not a credit
+// BenchmarkBatchCIETransactionCode benchmarks validating BatchCIE TransactionCode is not a debit
 func BenchmarkBatchCIETransactionCode(b *testing.B) {
 	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {

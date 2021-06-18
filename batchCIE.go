@@ -63,8 +63,12 @@ func (batch *BatchCIE) Validate() error {
 	}
 
 	for _, entry := range batch.Entries {
-		// CIE detail entries must be a debit
-		if entry.CreditOrDebit() != "C" {
+		// CIE detail entries must be a credit
+		if entry.CreditOrDebit() != "C" && !batch.IsReversal() {
+			return batch.Error("TransactionCode", ErrBatchCreditOnly, entry.TransactionCode)
+		}
+		// CIE reversal detail entries must be a debit
+		if entry.CreditOrDebit() != "D" && batch.IsReversal() {
 			return batch.Error("TransactionCode", ErrBatchDebitOnly, entry.TransactionCode)
 		}
 		// CIE must have a maximum of one Addenda05 record

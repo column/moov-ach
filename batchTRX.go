@@ -60,8 +60,12 @@ func (batch *BatchTRX) Validate() error {
 
 	for _, entry := range batch.Entries {
 		// TRX detail entries must be a debit
-		if entry.CreditOrDebit() != "D" {
+		if entry.CreditOrDebit() != "D" && !batch.IsReversal() {
 			return batch.Error("TransactionCode", ErrBatchDebitOnly, entry.TransactionCode)
+		}
+		// TRX reversal detail entries must be a credit
+		if entry.CreditOrDebit() != "C" && batch.IsReversal() {
+			return batch.Error("TransactionCode", ErrBatchCreditOnly, entry.TransactionCode)
 		}
 		// Trapping this error, as entry.CTXAddendaRecordsField() can not be greater than 9999
 		if len(entry.Addenda05) > 9999 {

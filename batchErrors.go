@@ -35,6 +35,8 @@ var (
 	ErrBatchInvalidCardTransactionType = errors.New("invalid card transaction type")
 	// ErrBatchDebitOnly is the error given when a batch which can only have debits has a credit
 	ErrBatchDebitOnly = errors.New("this batch type does not allow credit transaction codes")
+	// ErrBatchCreditOnly is the error given when a batch which can only have credits has a debit
+	ErrBatchCreditOnly = errors.New("this batch type does not allow debit transaction codes")
 	// ErrBatchCheckSerialNumber is the error given when a batch requires check serial numbers, but it is missing
 	ErrBatchCheckSerialNumber = errors.New("this batch type requires entries to have Check Serial Numbers")
 	// ErrBatchSECType is the error given when the batch's header has the wrong SEC for its type
@@ -86,9 +88,13 @@ func (b *Batch) Error(field string, err error, values ...interface{}) error {
 	if _, ok := err.(*BatchError); ok {
 		return err
 	}
+	bt := b.Header.StandardEntryClassCode
+	if b.IsReversal() {
+		bt = fmt.Sprintf("%s %s", bt, ReversalCompanyEntryDescription)
+	}
 	be := BatchError{
 		BatchNumber: b.Header.BatchNumber,
-		BatchType:   b.Header.StandardEntryClassCode,
+		BatchType:   bt,
 		FieldName:   field,
 		Err:         err,
 	}

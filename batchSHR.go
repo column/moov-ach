@@ -66,8 +66,12 @@ func (batch *BatchSHR) Validate() error {
 
 	for _, entry := range batch.Entries {
 		// SHR detail entries must be a debit
-		if entry.CreditOrDebit() != "D" {
+		if entry.CreditOrDebit() != "D" && !batch.IsReversal() {
 			return batch.Error("TransactionCode", ErrBatchDebitOnly, entry.TransactionCode)
+		}
+		// SHR reversal detail entries must be a credit
+		if entry.CreditOrDebit() != "C" && batch.IsReversal() {
+			return batch.Error("TransactionCode", ErrBatchCreditOnly, entry.TransactionCode)
 		}
 		if err := entry.isCardTransactionType(entry.DiscretionaryData); err != nil {
 			return batch.Error("CardTransactionType", ErrBatchInvalidCardTransactionType, entry.DiscretionaryData)

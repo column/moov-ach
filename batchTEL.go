@@ -47,8 +47,13 @@ func (batch *BatchTEL) Validate() error {
 	}
 	// can not have credits in TEL batches
 	for _, entry := range batch.Entries {
-		if entry.CreditOrDebit() != "D" {
+		// TEL detail entries must be a debit
+		if entry.CreditOrDebit() != "D" && !batch.IsReversal() {
 			return batch.Error("TransactionCode", ErrBatchDebitOnly, entry.TransactionCode)
+		}
+		// TEL reversal detail entries must be a credit
+		if entry.CreditOrDebit() != "C" && batch.IsReversal() {
+			return batch.Error("TransactionCode", ErrBatchCreditOnly, entry.TransactionCode)
 		}
 		// Verify the TransactionCode is valid for a ServiceClassCode
 		if err := batch.ValidTranCodeForServiceClassCode(entry); err != nil {
