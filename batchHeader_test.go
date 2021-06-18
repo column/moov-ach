@@ -112,7 +112,7 @@ func testParseBatchHeader(t testing.TB) {
 	if record.EffectiveEntryDateField() != "190730" {
 		t.Errorf("EffectiveEntryDate Expected '190730' got: %v", record.EffectiveEntryDateField())
 	}
-	if record.SettlementDate != "   " {
+	if record.SettlementDateField() != "   " {
 		t.Errorf("SettlementDate Expected '   ' got: %v", record.SettlementDate)
 	}
 	if record.OriginatorStatusCode != 1 {

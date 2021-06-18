@@ -97,7 +97,7 @@ type BatchHeader struct {
 	EffectiveEntryDate string `json:"effectiveEntryDate,omitempty"`
 
 	// SettlementDate Leave blank, this field is inserted by the ACH operator
-	SettlementDate string
+	SettlementDate int
 
 	// OriginatorStatusCode refers to the ODFI initiating the Entry.
 	// 0 ADV File prepared by an ACH Operator.
@@ -184,7 +184,7 @@ func (bh *BatchHeader) Parse(record string) {
 	// You almost always want the transaction to post as soon as possible, so put tomorrow's date in YYMMDD format
 	bh.EffectiveEntryDate = bh.validateSimpleDate(record[69:75])
 	// 76-78 Settlement Date (Julian). Inserted by ACH Operator.
-	bh.SettlementDate = record[75:78]
+	bh.SettlementDate = bh.parseNumField(record[75:78])
 	// 79-79 Always 1
 	bh.OriginatorStatusCode = bh.parseNumField(record[78:79])
 	// 80-87 Your ODFI's routing number without the last digit. The last digit is simply a
@@ -363,7 +363,10 @@ func (bh *BatchHeader) BatchNumberField() string {
 }
 
 func (bh *BatchHeader) SettlementDateField() string {
-	return bh.alphaField(bh.SettlementDate, 3)
+	if bh.SettlementDate == 0 {
+		return "   "
+	}
+	return bh.numericField(bh.SettlementDate, 3)
 }
 
 func (bh *BatchHeader) LiftEffectiveEntryDate() (time.Time, error) {
