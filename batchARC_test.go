@@ -312,6 +312,7 @@ func testBatchARCTransactionCode(t testing.TB) {
 func TestBatchARCTransactionCodeReversal(t *testing.T) {
 	mockBatch := mockBatchARCCredit()
 	mockBatch.GetHeader().CompanyEntryDescription = ReversalCompanyEntryDescription
+	mockBatch.GetHeader().ServiceClassCode = CreditsOnly
 	mockBatch.GetEntries()[0].TransactionCode = CheckingDebit
 	err := mockBatch.Create()
 	if !base.Match(err, ErrBatchCreditOnly) {
