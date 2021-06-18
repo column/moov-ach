@@ -44,6 +44,7 @@ type Batcher interface {
 	Validate() error
 	SetID(string)
 	ID() string
+	IsReversal() bool
 	// Category defines if a Forward or Return
 	Category() string
 	Error(string, error, ...interface{}) error
