@@ -32,6 +32,8 @@ import (
 type EntryDetail struct {
 	// ID is a client defined string used as a reference to this record.
 	ID string `json:"id"`
+	// ID of Transfer associated with this entyr
+	TransferID string `json:"transfer_id"`
 	// RecordType defines the type of record in the block. 6
 	recordType string
 	// TransactionCode if the receivers account is checking, savings, general ledger (GL) or loan.
