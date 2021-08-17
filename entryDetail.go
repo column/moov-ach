@@ -23,6 +23,8 @@ import (
 	"strconv"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/segmentio/ksuid"
 )
 
 // EntryDetail contains the actual transaction data for an individual entry.
@@ -32,8 +34,10 @@ import (
 type EntryDetail struct {
 	// ID is a client defined string used as a reference to this record.
 	ID string `json:"id"`
-	// ID of Transfer associated with this entyr
-	TransferID string `json:"transfer_id"`
+	// Column ACHTransferID.ID
+	ACHTransferID ksuid.KSUID `json:"ach_transfer_id"`
+	// Column ACHEntryID
+	ACHEntryID uint64 `json:"ach_entry_id"`
 	// RecordType defines the type of record in the block. 6
 	recordType string
 	// TransactionCode if the receivers account is checking, savings, general ledger (GL) or loan.
