@@ -578,6 +578,14 @@ type ValidateOpts struct {
 	// BypassCompanyIdentificationMatch allows batches in which the Company Identification field
 	// in the batch header and control do not match.
 	BypassCompanyIdentificationMatch bool `json:"bypassCompanyIdentificationMatch"`
+
+	// CustomReturnCodes can be set to skip validation for the Return Code field in an Addenda99
+	// This allows for non-standard/deprecated return codes (e.g. R97)
+	CustomReturnCodes bool `json:"customReturnCodes"`
+
+	// UnequalServiceClassCode skips equality checks for the ServiceClassCode in each pair of BatchHeader
+	// and BatchControl records.
+	UnequalServiceClassCode bool `json:"unequalServiceClassCode"`
 }
 
 // ValidateWith performs checks on each record according to Nacha guidelines.
