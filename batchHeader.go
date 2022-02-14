@@ -96,7 +96,7 @@ type BatchHeader struct {
 	// EffectiveEntryDate the date on which the entries are to settle. Format: YYMMDD (Y=Year, M=Month, D=Day)
 	EffectiveEntryDate string `json:"effectiveEntryDate,omitempty"`
 
-	// SettlementDate Leave blank, this field is inserted by the ACH operator
+	// SettlementDate (Julian). Inserted by ACH Operator.
 	SettlementDate int
 
 	// OriginatorStatusCode refers to the ODFI initiating the Entry.
