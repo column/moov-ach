@@ -22,6 +22,8 @@ import (
 	"strconv"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/segmentio/ksuid"
 )
 
 // IATEntryDetail contains the actual transaction data for an individual entry.
@@ -31,6 +33,10 @@ import (
 type IATEntryDetail struct {
 	// ID is a client defined string used as a reference to this record.
 	ID string `json:"id"`
+	// Column ACHTransferID.ID
+	ACHTransferID ksuid.KSUID `json:"ach_transfer_id"`
+	// Column ACHEntryID
+	ACHEntryID uint64 `json:"ach_entry_id"`
 	// RecordType defines the type of record in the block. 6
 	recordType string
 	// TransactionCode if the receivers account is:
