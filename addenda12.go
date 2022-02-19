@@ -32,6 +32,8 @@ import (
 type Addenda12 struct {
 	// ID is a client defined string used as a reference to this record.
 	ID string `json:"id"`
+	// Column ACHEntryID
+	ACHEntryID uint64 `json:"ach_entry_id"`
 	// RecordType defines the type of record in the block.
 	recordType string
 	// TypeCode Addenda12 types code '12'
