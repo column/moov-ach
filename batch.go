@@ -1005,6 +1005,9 @@ func (batch *Batch) ValidTranCodeForServiceClassCode(entry *EntryDetail) error {
 
 	switch batch.Header.ServiceClassCode {
 	case AutomatedAccountingAdvices:
+		if batch.validateOpts != nil && batch.validateOpts.BypassServiceClassCodeValidation {
+			return nil
+		}
 		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, batch.Header.ServiceClassCode)
 
 	case MixedDebitsAndCredits:

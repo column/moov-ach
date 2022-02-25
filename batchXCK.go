@@ -51,6 +51,9 @@ func (batch *BatchXCK) Validate() error {
 	// XCK detail entries can only be a debit, ServiceClassCode must allow debits
 	switch batch.Header.ServiceClassCode {
 	case MixedDebitsAndCredits, CreditsOnly:
+		if batch.validateOpts != nil && batch.validateOpts.BypassServiceClassCodeValidation {
+			return nil
+		}
 		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, batch.Header.ServiceClassCode)
 	}
 

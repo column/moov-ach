@@ -43,7 +43,7 @@ func (batch *BatchADV) Validate() error {
 	if batch.Header.StandardEntryClassCode != ADV {
 		return batch.Error("StandardEntryClassCode", ErrBatchSECType, ADV)
 	}
-	if batch.Header.ServiceClassCode != AutomatedAccountingAdvices {
+	if batch.Header.ServiceClassCode != AutomatedAccountingAdvices && batch.validateOpts != nil && !batch.validateOpts.BypassServiceClassCodeValidation {
 		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, batch.Header.ServiceClassCode)
 	}
 	if batch.Header.OriginatorStatusCode != 0 {
