@@ -586,6 +586,9 @@ type ValidateOpts struct {
 	// UnequalServiceClassCode skips equality checks for the ServiceClassCode in each pair of BatchHeader
 	// and BatchControl records.
 	UnequalServiceClassCode bool `json:"unequalServiceClassCode"`
+
+	// BypassServiceClassCodeValidation skips SCC validation on batches
+	BypassServiceClassCodeValidation bool
 }
 
 // ValidateWith performs checks on each record according to Nacha guidelines.

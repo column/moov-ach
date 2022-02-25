@@ -65,8 +65,10 @@ func (batch *BatchBOC) Validate() error {
 
 	// BOC detail entries can only be a debit, ServiceClassCode must allow debits
 	scc := batch.Header.ServiceClassCode
-	if scc == MixedDebitsAndCredits || (scc == CreditsOnly && !batch.IsReversal()) || (scc == DebitsOnly && batch.IsReversal()) {
-		return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, scc)
+	if batch.validateOpts != nil && !batch.validateOpts.BypassServiceClassCodeValidation {
+		if scc == MixedDebitsAndCredits || (scc == CreditsOnly && !batch.IsReversal()) || (scc == DebitsOnly && batch.IsReversal()) {
+			return batch.Error("ServiceClassCode", ErrBatchServiceClassCode, scc)
+		}
 	}
 
 	for _, entry := range batch.Entries {
