@@ -109,9 +109,6 @@ func (addenda05 *Addenda05) Validate() error {
 	if addenda05.TypeCode != "05" {
 		return fieldError("TypeCode", ErrAddendaTypeCode, addenda05.TypeCode)
 	}
-	if err := addenda05.isAlphanumeric(addenda05.PaymentRelatedInformation); err != nil {
-		return fieldError("PaymentRelatedInformation", err, addenda05.PaymentRelatedInformation)
-	}
 
 	return nil
 }
