@@ -163,15 +163,6 @@ func TestAddenda05FieldInclusionRecordType(t *testing.T) {
 	}
 }
 
-func TestAddenda05PaymentRelatedInformationAlphaNumeric(t *testing.T) {
-	addenda05 := mockAddenda05()
-	addenda05.PaymentRelatedInformation = "®©"
-	err := addenda05.Validate()
-	if !base.Match(err, ErrNonAlphanumeric) {
-		t.Errorf("%T: %s", err, err)
-	}
-}
-
 func testAddenda05TypeCodeNil(t testing.TB) {
 	addenda05 := mockAddenda05()
 	addenda05.TypeCode = ""

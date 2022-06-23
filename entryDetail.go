@@ -612,6 +612,10 @@ func (ed *EntryDetail) addendaCount() (n int) {
 	return n
 }
 
+func (ed *EntryDetail) FullRoutingNumber() string {
+	return ed.RDFIIdentification + ed.CheckDigit
+}
+
 func sortEntriesByTraceNumber(entries []*EntryDetail) []*EntryDetail {
 	sort.Slice(entries[:], func(i, j int) bool {
 		return entries[i].TraceNumber < entries[j].TraceNumber

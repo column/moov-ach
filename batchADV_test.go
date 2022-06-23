@@ -118,11 +118,6 @@ func testBatchADVServiceClassCode(t testing.TB) {
 	}
 }
 
-// TestBatchADVServiceClassCode tests validating ServiceClassCode
-func TestBatchADVServiceClassCode(t *testing.T) {
-	testBatchADVServiceClassCode(t)
-}
-
 // BenchmarkBatchADVServiceClassCode benchmarks validating ServiceClassCode
 func BenchmarkBatchADVServiceClassCode(b *testing.B) {
 	b.ReportAllocs()

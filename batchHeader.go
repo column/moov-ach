@@ -372,3 +372,7 @@ func (bh *BatchHeader) SettlementDateField() string {
 func (bh *BatchHeader) LiftEffectiveEntryDate() (time.Time, error) {
 	return time.Parse("060102", bh.EffectiveEntryDate) // YYMMDD
 }
+
+func (bh *BatchHeader) FullRoutingNumber() string {
+	return bh.ODFIIdentification + strconv.Itoa(CalculateCheckDigit(bh.ODFIIdentification))
+}

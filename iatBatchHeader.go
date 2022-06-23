@@ -426,3 +426,7 @@ func (iatBh *IATBatchHeader) settlementDateField() string {
 	}
 	return iatBh.numericField(iatBh.SettlementDate, 3)
 }
+
+func (iatBh *IATBatchHeader) FullRoutingNumber() string {
+	return iatBh.ODFIIdentification + strconv.Itoa(CalculateCheckDigit(iatBh.ODFIIdentification))
+}
