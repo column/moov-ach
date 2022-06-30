@@ -138,9 +138,6 @@ func (addenda11 *Addenda11) fieldInclusion() error {
 	if addenda11.OriginatorStreetAddress == "" {
 		return fieldError("OriginatorStreetAddress", ErrConstructor, addenda11.OriginatorStreetAddress)
 	}
-	if addenda11.EntryDetailSequenceNumber == 0 {
-		return fieldError("EntryDetailSequenceNumber", ErrConstructor, addenda11.EntryDetailSequenceNumberField())
-	}
 	return nil
 }
 

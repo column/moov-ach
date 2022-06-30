@@ -286,31 +286,6 @@ func BenchmarkAddenda16FieldInclusionReceiverCountryPostalCode(b *testing.B) {
 	}
 }
 
-// testAddenda16FieldInclusionEntryDetailSequenceNumber validates EntryDetailSequenceNumber fieldInclusion
-func testAddenda16FieldInclusionEntryDetailSequenceNumber(t testing.TB) {
-	addenda16 := mockAddenda16()
-	addenda16.EntryDetailSequenceNumber = 0
-	err := addenda16.Validate()
-	if !base.Match(err, ErrConstructor) {
-		t.Errorf("%T: %s", err, err)
-	}
-}
-
-// TestAddenda16FieldInclusionEntryDetailSequenceNumber tests validating
-// EntryDetailSequenceNumber fieldInclusion
-func TestAddenda16FieldInclusionEntryDetailSequenceNumber(t *testing.T) {
-	testAddenda16FieldInclusionEntryDetailSequenceNumber(t)
-}
-
-// BenchmarkAddenda16FieldInclusionEntryDetailSequenceNumber benchmarks validating
-// EntryDetailSequenceNumber fieldInclusion
-func BenchmarkAddenda16FieldInclusionEntryDetailSequenceNumber(b *testing.B) {
-	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
-		testAddenda16FieldInclusionEntryDetailSequenceNumber(b)
-	}
-}
-
 // TestAddenda16String validates that a known parsed Addenda16 record can be return to a string of the same value
 func testAddenda16String(t testing.TB) {
 	addenda16 := NewAddenda16()

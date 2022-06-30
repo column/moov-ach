@@ -386,31 +386,6 @@ func BenchmarkAddenda13FieldInclusionODFIBranchCountryCode(b *testing.B) {
 	}
 }
 
-// testAddenda13FieldInclusionEntryDetailSequenceNumber validates EntryDetailSequenceNumber fieldInclusion
-func testAddenda13FieldInclusionEntryDetailSequenceNumber(t testing.TB) {
-	addenda13 := mockAddenda13()
-	addenda13.EntryDetailSequenceNumber = 0
-	err := addenda13.Validate()
-	if !base.Match(err, ErrConstructor) {
-		t.Errorf("%T: %s", err, err)
-	}
-}
-
-// TestAddenda13FieldInclusionEntryDetailSequenceNumber tests validating
-// EntryDetailSequenceNumber fieldInclusion
-func TestAddenda13FieldInclusionEntryDetailSequenceNumber(t *testing.T) {
-	testAddenda13FieldInclusionEntryDetailSequenceNumber(t)
-}
-
-// BenchmarkAddenda13FieldInclusionEntryDetailSequenceNumber benchmarks validating
-// EntryDetailSequenceNumber fieldInclusion
-func BenchmarkAddenda13FieldInclusionEntryDetailSequenceNumber(b *testing.B) {
-	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
-		testAddenda13FieldInclusionEntryDetailSequenceNumber(b)
-	}
-}
-
 // TestAddenda13String validates that a known parsed Addenda13 record can be return to a string of the same value
 func testAddenda13String(t testing.TB) {
 	addenda13 := NewAddenda13()

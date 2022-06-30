@@ -144,9 +144,6 @@ func (addenda12 *Addenda12) fieldInclusion() error {
 	if addenda12.OriginatorCountryPostalCode == "" {
 		return fieldError("OriginatorCountryPostalCode", ErrConstructor, addenda12.OriginatorCountryPostalCode)
 	}
-	if addenda12.EntryDetailSequenceNumber == 0 {
-		return fieldError("EntryDetailSequenceNumber", ErrConstructor, addenda12.EntryDetailSequenceNumberField())
-	}
 	return nil
 }
 

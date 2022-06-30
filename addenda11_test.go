@@ -286,31 +286,6 @@ func BenchmarkAddenda11FieldInclusionOriginatorStreetAddress(b *testing.B) {
 	}
 }
 
-// testAddenda11FieldInclusionEntryDetailSequenceNumber validates EntryDetailSequenceNumber fieldInclusion
-func testAddenda11FieldInclusionEntryDetailSequenceNumber(t testing.TB) {
-	addenda11 := mockAddenda11()
-	addenda11.EntryDetailSequenceNumber = 0
-	err := addenda11.Validate()
-	if !base.Match(err, ErrConstructor) {
-		t.Errorf("%T: %s", err, err)
-	}
-}
-
-// TestAddenda11FieldInclusionEntryDetailSequenceNumber tests validating
-// EntryDetailSequenceNumber fieldInclusion
-func TestAddenda11FieldInclusionEntryDetailSequenceNumber(t *testing.T) {
-	testAddenda11FieldInclusionEntryDetailSequenceNumber(t)
-}
-
-// BenchmarkAddenda11FieldInclusionEntryDetailSequenceNumber benchmarks validating
-// EntryDetailSequenceNumber fieldInclusion
-func BenchmarkAddenda11FieldInclusionEntryDetailSequenceNumber(b *testing.B) {
-	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
-		testAddenda11FieldInclusionEntryDetailSequenceNumber(b)
-	}
-}
-
 // TestAddenda11String validates that a known parsed Addenda11 record can be return to a string of the same value
 func testAddenda11String(t testing.TB) {
 	addenda11 := NewAddenda11()

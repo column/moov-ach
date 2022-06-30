@@ -342,31 +342,6 @@ func BenchmarkAddenda10FieldInclusionName(b *testing.B) {
 	}
 }
 
-// testAddenda10FieldInclusionEntryDetailSequenceNumber validates EntryDetailSequenceNumber fieldInclusion
-func testAddenda10FieldInclusionEntryDetailSequenceNumber(t testing.TB) {
-	addenda10 := mockAddenda10()
-	addenda10.EntryDetailSequenceNumber = 0
-	err := addenda10.Validate()
-	if !base.Match(err, ErrConstructor) {
-		t.Errorf("%T: %s", err, err)
-	}
-}
-
-// TestAddenda10FieldInclusionEntryDetailSequenceNumber tests validating
-// EntryDetailSequenceNumber fieldInclusion
-func TestAddenda10FieldInclusionEntryDetailSequenceNumber(t *testing.T) {
-	testAddenda10FieldInclusionEntryDetailSequenceNumber(t)
-}
-
-// BenchmarkAddenda10FieldInclusionEntryDetailSequenceNumber benchmarks validating
-// EntryDetailSequenceNumber fieldInclusion
-func BenchmarkAddenda10FieldInclusionEntryDetailSequenceNumber(b *testing.B) {
-	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
-		testAddenda10FieldInclusionEntryDetailSequenceNumber(b)
-	}
-}
-
 // TestAddenda10String validates that a known parsed Addenda10 record can be return to a string of the same value
 func testAddenda10String(t testing.TB) {
 	addenda10 := NewAddenda10()

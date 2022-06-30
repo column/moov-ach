@@ -200,15 +200,6 @@ func TestAddenda18FieldInclusionTypeCode(t *testing.T) {
 	}
 }
 
-func TestAddenda18FieldInclusion(t *testing.T) {
-	addenda18 := mockAddenda18()
-	addenda18.EntryDetailSequenceNumber = 0
-	err := addenda18.Validate()
-	if !base.Match(err, ErrConstructor) {
-		t.Errorf("%T: %s", err, err)
-	}
-}
-
 func TestAddenda18FieldInclusionSequenceNumber(t *testing.T) {
 	addenda18 := mockAddenda18()
 	addenda18.SequenceNumber = 0

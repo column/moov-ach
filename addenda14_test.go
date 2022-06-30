@@ -386,31 +386,6 @@ func BenchmarkAddenda14FieldInclusionRDFIBranchCountryCode(b *testing.B) {
 	}
 }
 
-// testAddenda14FieldInclusionEntryDetailSequenceNumber validates EntryDetailSequenceNumber fieldInclusion
-func testAddenda14FieldInclusionEntryDetailSequenceNumber(t testing.TB) {
-	addenda14 := mockAddenda14()
-	addenda14.EntryDetailSequenceNumber = 0
-	err := addenda14.Validate()
-	if !base.Match(err, ErrConstructor) {
-		t.Errorf("%T: %s", err, err)
-	}
-}
-
-// TestAddenda14FieldInclusionEntryDetailSequenceNumber tests validating
-// EntryDetailSequenceNumber fieldInclusion
-func TestAddenda14FieldInclusionEntryDetailSequenceNumber(t *testing.T) {
-	testAddenda14FieldInclusionEntryDetailSequenceNumber(t)
-}
-
-// BenchmarkAddenda14FieldInclusionEntryDetailSequenceNumber benchmarks validating
-// EntryDetailSequenceNumber fieldInclusion
-func BenchmarkAddenda14FieldInclusionEntryDetailSequenceNumber(b *testing.B) {
-	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
-		testAddenda14FieldInclusionEntryDetailSequenceNumber(b)
-	}
-}
-
 // TestAddenda14String validates that a known parsed Addenda14 record can be return to a string of the same value
 func testAddenda14String(t testing.TB) {
 	addenda14 := NewAddenda14()
