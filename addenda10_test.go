@@ -166,9 +166,24 @@ func testAddenda10TransactionTypeCode(t testing.TB) {
 	}
 }
 
+// testAddenda10TransactionTypeCodeLower validates a lowercase TransactionTypeCode
+func testAddenda10TransactionTypeCodeLower(t testing.TB) {
+	addenda10 := mockAddenda10()
+	addenda10.TransactionTypeCode = "mis"
+	err := addenda10.Validate()
+	if !base.Match(err, ErrTransactionTypeCode) {
+		t.Errorf("%T: %s", err, err)
+	}
+}
+
 // TestAddenda10TransactionTypeCode tests validating TransactionTypeCode
 func TestAddenda10TransactionTypeCode(t *testing.T) {
 	testAddenda10TransactionTypeCode(t)
+}
+
+// TestAddenda10TransactionTypeCode tests validating TransactionTypeCode
+func TestAddenda10TransactionTypeCodeLower(t *testing.T) {
+	testAddenda10TransactionTypeCodeLower(t)
 }
 
 // BenchmarkAddenda10TransactionTypeCode benchmarks validating TransactionTypeCode
