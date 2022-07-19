@@ -170,9 +170,8 @@ func testAddenda10TransactionTypeCode(t testing.TB) {
 func testAddenda10TransactionTypeCodeLower(t testing.TB) {
 	addenda10 := mockAddenda10()
 	addenda10.TransactionTypeCode = "mis"
-	err := addenda10.Validate()
-	if !base.Match(err, ErrTransactionTypeCode) {
-		t.Errorf("%T: %s", err, err)
+	if err := addenda10.Validate(); err != nil {
+		t.Errorf("mockAddenda10 should allow lower case TransactionTypeCodes but does not: %v", err)
 	}
 }
 
