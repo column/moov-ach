@@ -49,7 +49,7 @@ func TestAddenda99Dishonored(t *testing.T) {
 	addenda99.OriginalTrace = "091000011371432"
 	addenda99.DateOfDeath = "220427"
 	addenda99.OriginalDFI = "12114530"
-	addenda99.SetDishonoredAddendaInformation("121145300025120", "117", "05", "06")
+	addenda99.SetDishonoredAddendaInformation("121145300025120", "117", "R05", "06")
 	addenda99.TraceNumber = "091000011371432"
 	assert.Equal(t, line, addenda99.String())
 }

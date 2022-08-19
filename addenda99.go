@@ -229,7 +229,7 @@ func (Addenda99 *Addenda99) SetDishonoredAddendaInformation(
 	addendaInformation := fmt.Sprintf("   %s%s%s%s",
 		Addenda99.alphaField(returnTraceNumber, 15),
 		Addenda99.alphaField(returnSettlementDate, 3),
-		Addenda99.alphaField(returnReasonCode, 2),
+		Addenda99.alphaField(returnReasonCode[len(returnReasonCode)-2:], 2),
 		Addenda99.alphaField(addenda, 21),
 	)
 	Addenda99.AddendaInformation = Addenda99.alphaField(addendaInformation, 44)
@@ -249,10 +249,10 @@ func (Addenda99 *Addenda99) SetContestedAddendaInformation(
 		Addenda99.alphaField(originalSettlementDate, 3),
 		Addenda99.alphaField(returnTraceNumber, 15),
 		Addenda99.alphaField(returnSettlementDate, 3),
-		Addenda99.alphaField(returnReasonCode, 2),
+		Addenda99.alphaField(returnReasonCode[len(returnReasonCode)-2:], 2),
 		Addenda99.alphaField(dishonoredReturnTraceNumber, 15),
 		Addenda99.alphaField(dishonoredReturnSettlementDate, 3),
-		Addenda99.alphaField(dishonoredReturnReasonCode, 2),
+		Addenda99.alphaField(dishonoredReturnReasonCode[len(dishonoredReturnReasonCode)-2:], 2),
 	)
 	Addenda99.AddendaInformation = Addenda99.alphaField(addendaInformation, 44)
 }
