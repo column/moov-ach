@@ -23,6 +23,7 @@ import (
 	"testing"
 
 	"github.com/moov-io/base"
+	"github.com/stretchr/testify/assert"
 )
 
 func mockAddenda99() *Addenda99 {
@@ -33,6 +34,24 @@ func mockAddenda99() *Addenda99 {
 	addenda99.OriginalDFI = "9101298"
 
 	return addenda99
+}
+
+func TestAddenda99Dishonored(t *testing.T) {
+	addenda99 := NewAddenda99()
+	line := "799R6909100001137143222042712114530   1211453000251201170506                   091000011371432"
+	addenda99.Parse(line)
+	assert.Equal(t, "12114530", addenda99.OriginalDFI)
+	assert.Equal(t, "1211453000251201170506", addenda99.AddendaInformation)
+	assert.Equal(t, "091000011371432", addenda99.TraceNumber)
+
+	addenda99 = NewAddenda99()
+	addenda99.ReturnCode = "R69"
+	addenda99.OriginalTrace = "091000011371432"
+	addenda99.DateOfDeath = "220427"
+	addenda99.OriginalDFI = "12114530"
+	addenda99.SetDishonoredAddendaInformation("121145300025120", "117", "05", "06")
+	addenda99.TraceNumber = "091000011371432"
+	assert.Equal(t, line, addenda99.String())
 }
 
 func testAddenda99Parse(t testing.TB) {

@@ -35,6 +35,7 @@ _testmain.go
 *.exe
 *.test
 *.prof
+vendor
 
 .vscode/launch.json
 
