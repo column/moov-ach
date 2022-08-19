@@ -41,8 +41,9 @@ func TestAddenda99Dishonored(t *testing.T) {
 	line := "799R6909100001137143222042712114530   1211453000251201170506                   091000011371432"
 	addenda99.Parse(line)
 	assert.Equal(t, "12114530", addenda99.OriginalDFI)
-	assert.Equal(t, "1211453000251201170506", addenda99.AddendaInformation)
+	assert.Equal(t, "   1211453000251201170506                   ", addenda99.AddendaInformation)
 	assert.Equal(t, "091000011371432", addenda99.TraceNumber)
+	assert.Equal(t, line, addenda99.String())
 
 	addenda99 = NewAddenda99()
 	addenda99.ReturnCode = "R69"
@@ -77,7 +78,7 @@ func testAddenda99Parse(t testing.TB) {
 	if addenda99.OriginalDFI != "09101298" {
 		t.Errorf("expected: %s got: %s", "09101298", addenda99.OriginalDFI)
 	}
-	if addenda99.AddendaInformation != "Authorization revoked" {
+	if addenda99.AddendaInformation != "Authorization revoked                       " {
 		t.Errorf("expected: %v got: %v", "Authorization revoked", addenda99.AddendaInformation)
 	}
 	if addenda99.TraceNumber != "091012980000066" {
