@@ -53,6 +53,11 @@ func TestAddenda99Dishonored(t *testing.T) {
 	addenda99.SetDishonoredAddendaInformation("121145300025120", "117", "R05", "06")
 	addenda99.TraceNumber = "091000011371432"
 	assert.Equal(t, line, addenda99.String())
+
+	assert.Equal(t, "121145300025120", addenda99.AddendaInformationReturnTraceNumber())
+	assert.Equal(t, "117", addenda99.AddendaInformationReturnSettlementDate())
+	assert.Equal(t, "R05", addenda99.AddendaInformationReturnReasonCode())
+	assert.Equal(t, "06                   ", addenda99.AddendaInformationExtra())
 }
 
 func testAddenda99Parse(t testing.TB) {
