@@ -41,9 +41,12 @@ func (batch *BatchCOR) Validate() error {
 	}
 	// Add configuration based validation for this type.
 	// COR Addenda must be Addenda98
-	if err := batch.isAddenda98(); err != nil {
-		return err
-	}
+
+	// Disabled since we saw an ACH without this.
+	//
+	//if err := batch.isAddenda98(); err != nil {
+	//	return err
+	//}
 
 	// Add type specific validation.
 	if batch.Header.StandardEntryClassCode != COR {
