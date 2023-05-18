@@ -17,10 +17,6 @@
 
 package ach
 
-import (
-	"strconv"
-)
-
 // BatchCTX holds the BatchHeader and BatchControl and all EntryDetail for CTX Entries.
 //
 // The Corporate Trade Exchange (CTX) application provides the ability to collect and disburse
@@ -64,10 +60,13 @@ func (batch *BatchCTX) Validate() error {
 
 		// validate CTXAddendaRecord Field is equal to the actual number of Addenda records
 		// use 0 value if there is no Addenda records
-		addendaRecords, _ := strconv.Atoi(entry.CATXAddendaRecordsField())
-		if len(entry.Addenda05) != addendaRecords {
-			return batch.Error("AddendaCount", NewErrBatchExpectedAddendaCount(len(entry.Addenda05), addendaRecords))
-		}
+
+		// Update: 05/18/23 - We saw a CTX without any addenda record here, commenting out this check
+		// addendaRecords, _ := strconv.Atoi(entry.CATXAddendaRecordsField())
+		// if len(entry.Addenda05) != addendaRecords {
+		//	 return batch.Error("AddendaCount", NewErrBatchExpectedAddendaCount(len(entry.Addenda05), addendaRecords))
+		// }
+
 		// Verify TransactionCode for prenotes and regular entries
 		switch entry.TransactionCode {
 		case CheckingPrenoteCredit, CheckingPrenoteDebit,
