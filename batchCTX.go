@@ -64,8 +64,8 @@ func (batch *BatchCTX) Validate() error {
 
 		// validate CTXAddendaRecord Field is equal to the actual number of Addenda records
 		// use 0 value if there is no Addenda records
-		addendaRecords, _ := strconv.Atoi(entry.CATXAddendaRecordsField())
 		// On 4/18 We saw a CTX without an addenda record, removing this
+		// addendaRecords, _ := strconv.Atoi(entry.CATXAddendaRecordsField())
 		// if len(entry.Addenda05) != addendaRecords {
 		// 	return batch.Error("AddendaCount", NewErrBatchExpectedAddendaCount(len(entry.Addenda05), addendaRecords))
 		// }
