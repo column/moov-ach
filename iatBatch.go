@@ -184,19 +184,18 @@ func (iatBatch *IATBatch) build() error {
 		}
 		// Set TraceNumber for Addendumer Addenda17 and Addenda18 SequenceNumber and EntryDetailSequenceNumber
 		seq++
-		addenda17Seq := 1
-		addenda18Seq := 1
+		optionalAddendaSequenceNumber := 1
 
 		for _, addenda17 := range entry.Addenda17 {
-			addenda17.SequenceNumber = addenda17Seq
+			addenda17.SequenceNumber = optionalAddendaSequenceNumber
 			addenda17.EntryDetailSequenceNumber = iatBatch.parseNumField(iatBatch.Entries[i].TraceNumberField()[8:])
-			addenda17Seq++
+			optionalAddendaSequenceNumber++
 		}
 
 		for _, addenda18 := range entry.Addenda18 {
-			addenda18.SequenceNumber = addenda18Seq
+			addenda18.SequenceNumber = optionalAddendaSequenceNumber
 			addenda18.EntryDetailSequenceNumber = iatBatch.parseNumField(iatBatch.Entries[i].TraceNumberField()[8:])
-			addenda18Seq++
+			optionalAddendaSequenceNumber++
 		}
 	}
 
