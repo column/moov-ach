@@ -17,10 +17,6 @@
 
 package ach
 
-import (
-	"strconv"
-)
-
 // BatchATX holds the BatchHeader and BatchControl and all EntryDetail for ATX (Acknowledgment)
 // Entries.
 //
@@ -68,23 +64,27 @@ func (batch *BatchATX) Validate() error {
 		// Trapping this error, as entry.ATXAddendaRecordsField() can not be greater than 9999
 		if len(entry.Addenda05) > 9999 {
 			return batch.Error("AddendaCount", NewErrBatchAddendaCount(len(entry.Addenda05), 9999))
-
 		}
 
 		// validate ATXAddendaRecord Field is equal to the actual number of Addenda records
 		// use 0 value if there is no Addenda records
+
+		/* disable validation
 		addendaRecords, _ := strconv.Atoi(entry.CATXAddendaRecordsField())
 		if len(entry.Addenda05) != addendaRecords {
 			return batch.Error("AddendaCount", NewErrBatchExpectedAddendaCount(len(entry.Addenda05), addendaRecords))
 		}
+
 		// Verify the TransactionCode is valid for a ServiceClassCode
 		if err := batch.ValidTranCodeForServiceClassCode(entry); err != nil {
 			return err
 		}
+
 		// Verify Addenda* FieldInclusion based on entry.Category and batchHeader.StandardEntryClassCode
 		if err := batch.addendaFieldInclusion(entry); err != nil {
 			return err
 		}
+		*/
 	}
 	return nil
 }
